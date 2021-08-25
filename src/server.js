@@ -1,12 +1,17 @@
 import express from "express";
 import cors from "cors";
+// import db from "./db/connect.js";
+import db from "./db/models/index.js";
 
 const server = express();
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3005;
 
 server.use(express.json());
 server.use(cors());
 
-server.listen(port, () => {
-  console.log("🛒 Port runing on: ", port);
-});
+db.sequelize
+  .sync({ force: true })
+  .then(() => {
+    server.listen(port, () => console.log("🛒 Port runing on: ", port));
+  })
+  .catch((e) => console.log(e));

@@ -6,7 +6,7 @@ const { PGDATABASE, PGUSER, PGHOST, PGPASSWORD, PGPORT } = process.env;
 const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
   host: PGHOST,
   port: PGPORT,
-  dialect: "postgres" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
+  dialect: "postgres",
 });
 
 const testConnect = async () => {
@@ -15,8 +15,8 @@ const testConnect = async () => {
     console.log(`✅ connection authenticated!!`);
   } catch (error) {
     console.error("⛔ db NOT conected:", error);
-    console.log(error);
   }
 };
+testConnect();
 
 export default sequelize;
