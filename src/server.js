@@ -15,7 +15,7 @@ server.use("/prods", prodRouter);
 server.use("/categs", categRouter);
 
 db.sequelize
-  .sync({ force: true })
+  .sync() //was sync({ force: true })
   .then(() => {
     server.listen(port, () => console.log("🛒 Port runing on: ", port));
   })
