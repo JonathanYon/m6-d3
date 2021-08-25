@@ -37,6 +37,11 @@ router
   })
   .put(async (req, res, next) => {
     try {
+      const category = await categs.update(req.body, {
+        where: { id: req.params.id },
+        returning: true,
+      });
+      res.send(category);
     } catch (error) {
       console.log(error);
       next(error);

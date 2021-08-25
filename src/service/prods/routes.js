@@ -38,6 +38,11 @@ router
   })
   .put(async (req, res, next) => {
     try {
+      const product = await prods.update(req.body, {
+        where: { id: req.params.id },
+        returning: true,
+      });
+      res.send(product);
     } catch (error) {
       console.log(error);
       next(error);
