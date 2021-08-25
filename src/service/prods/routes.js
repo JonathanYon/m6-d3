@@ -1,5 +1,7 @@
 import { Router } from "express";
+import db from "../../db/models/index.js";
 
+const prods = db.prod;
 const router = Router();
 
 router
@@ -13,6 +15,8 @@ router
   })
   .post(async (req, res, next) => {
     try {
+      const product = await prods.create(req.body);
+      res.send(product);
     } catch (error) {
       console.log(error);
       next(error);
@@ -41,3 +45,5 @@ router
       next(error);
     }
   });
+
+export default router;
