@@ -16,7 +16,7 @@ router
   .post(async (req, res, next) => {
     try {
       const category = await categs.create(req.body);
-      res.send(categs);
+      res.send(category);
     } catch (error) {
       console.log(error);
       next(error);

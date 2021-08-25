@@ -8,6 +8,8 @@ router
   .route("/")
   .get(async (req, res, next) => {
     try {
+      const product = await categs.findAll();
+      res.send(product);
     } catch (error) {
       console.log(error);
       next(error);
