@@ -2,13 +2,35 @@ import { Router } from "express";
 import db from "../../db/models/index.js";
 
 const categs = db.cate;
+const prods = db.prod;
 const router = Router();
 
 router
   .route("/")
   .get(async (req, res, next) => {
     try {
-      const category = await categs.findAll();
+      const { name } = req.query;
+      const filter = req.query.name
+        ? {
+            where: {
+              name: {
+                [Op.iLike]: `${name}%`,
+              },
+            },
+          }
+        : {};
+      //   const category = await prods.findAll(filter); //filter all product or the queries
+      // const category = await categs.findAll();
+      const category = await categs.findAll({
+        attributes: ["id", "name"],
+        ...filter,
+        include: prods,
+        //sends only name and image
+      });
+
+      //  const product = await prods.findAll({
+      //     attributes: {exclude: ["id"] }         //sends only name and image
+      // });
       res.send(category);
     } catch (error) {
       console.log(error);
