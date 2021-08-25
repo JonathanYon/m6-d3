@@ -28,6 +28,8 @@ router
   .route("/:id")
   .get(async (req, res, next) => {
     try {
+      const category = await categs.findByPk(req.params.id);
+      res.send(category);
     } catch (error) {
       console.log(error);
       next(error);
