@@ -1,7 +1,9 @@
 import { Router } from "express";
+import pkg from "sequelize";
 import db from "../../db/models/index.js";
 import prod from "../../db/models/prod.js";
 
+const { Op } = pkg;
 const prods = db.prod;
 const router = Router();
 
@@ -9,7 +11,17 @@ router
   .route("/")
   .get(async (req, res, next) => {
     try {
-      const product = await prods.findAll();
+      const { name } = req.query;
+      const filter = req.query.name
+        ? {
+            where: {
+              name: {
+                [Op.iLike]: `${name}%`,
+              },
+            },
+          }
+        : {};
+      const product = await prods.findAll(filter);
       res.send(product);
     } catch (error) {
       console.log(error);
