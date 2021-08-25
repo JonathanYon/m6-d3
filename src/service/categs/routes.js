@@ -41,7 +41,7 @@ router
         where: { id: req.params.id },
         returning: true,
       });
-      res.send(category);
+      res.send(category[1][0]);
     } catch (error) {
       console.log(error);
       next(error);
@@ -49,6 +49,12 @@ router
   })
   .delete(async (req, res, next) => {
     try {
+      const category = await categs.destroy({ where: { id: req.params.id } });
+      if (category > 0) {
+        res.send("Deleted!!");
+      } else {
+        res.status(404).send("Not Found!!");
+      }
     } catch (error) {
       console.log(error);
       next(error);
