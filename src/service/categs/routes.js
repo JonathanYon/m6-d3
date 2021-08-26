@@ -1,6 +1,8 @@
 import { Router } from "express";
 import db from "../../db/models/index.js";
+import pkg from "sequelize";
 
+const { Op } = pkg;
 const categs = db.cate;
 const prods = db.prod;
 const router = Router();
