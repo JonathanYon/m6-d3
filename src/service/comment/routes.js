@@ -4,7 +4,7 @@ import db from "../../db/models/index.js";
 
 const { Op } = pkg;
 const comment = db.comment;
-const { user } = db.user;
+const User = db.user;
 const router = Router();
 
 router
@@ -12,7 +12,6 @@ router
   .get(async (req, res, next) => {
     try {
       const product = await comment.findAll({});
-
       res.send(product);
     } catch (error) {
       console.log(error);
@@ -21,13 +20,16 @@ router
   })
   .delete(async (req, res, next) => {
     try {
-      const { userId } = req.params;
-      const product = await comment.destroy({ where: { userId } });
-      if (product > 0) {
-        res.send("Deleted!!");
-      } else {
-        res.status(404).send("Not Found!!");
-      }
+      //   const { userId } = req.params;
+      const product = await comment.destroy({
+        where: { userId: req.params.userId },
+      });
+      res.send({ product });
+      //   if (product > 0) {
+      //     res.send("Deleted!!");
+      //   } else {
+      //     res.status(404).send("Not Found!!");
+      //   }
     } catch (error) {
       console.log(error);
       next(error);
