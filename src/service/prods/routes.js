@@ -5,6 +5,8 @@ import db from "../../db/models/index.js";
 const { Op } = pkg;
 const prods = db.prod;
 const categs = db.cate;
+const user = db.user;
+const comments = db.comment;
 const router = Router();
 
 router
@@ -12,7 +14,7 @@ router
   .get(async (req, res, next) => {
     try {
       const product = await prods.findAll({
-        include: categs,
+        include: [categs, { model: comments, include: user }],
       });
 
       res.send(product);

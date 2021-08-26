@@ -4,50 +4,16 @@ import db from "../../db/models/index.js";
 
 const { Op } = pkg;
 const comment = db.comment;
-const user = db.user;
+const { user } = db.user;
 const router = Router();
 
 router
-  .route("/")
+  .route("/:userId")
   .get(async (req, res, next) => {
     try {
-      const product = await prods.findAll({
-        include: categs,
-      });
+      const product = await comment.findAll({});
 
       res.send(product);
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  })
-  .post(async (req, res, next) => {
-    try {
-      const product = await prods.create(req.body);
-      res.send(product);
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  });
-router
-  .route("/:id")
-  .get(async (req, res, next) => {
-    try {
-      const product = await prods.findByPk(req.params.id);
-      res.send(product);
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  })
-  .put(async (req, res, next) => {
-    try {
-      const product = await prods.update(req.body, {
-        where: { id: req.params.id },
-        returning: true,
-      });
-      res.send(product[1][0]);
     } catch (error) {
       console.log(error);
       next(error);
@@ -55,7 +21,8 @@ router
   })
   .delete(async (req, res, next) => {
     try {
-      const product = await prods.destroy({ where: { id: req.params.id } });
+      const { userId } = req.params;
+      const product = await comment.destroy({ where: { userId } });
       if (product > 0) {
         res.send("Deleted!!");
       } else {
@@ -66,5 +33,15 @@ router
       next(error);
     }
   });
+
+router.route("/").post(async (req, res, next) => {
+  try {
+    const product = await comment.create({ ...req.body });
+    res.send(product);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 export default router;
