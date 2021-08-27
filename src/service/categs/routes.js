@@ -5,6 +5,8 @@ import pkg from "sequelize";
 const { Op } = pkg;
 const categs = db.cate;
 const prods = db.prod;
+const user = db.user;
+const comments = db.comment;
 const router = Router();
 
 router
