@@ -5,7 +5,7 @@ import pkg from "sequelize";
 const { Op } = pkg;
 const categs = db.cate;
 const prods = db.prod;
-const user = db.user;
+const users = db.user;
 const comments = db.comment;
 const router = Router();
 
@@ -29,7 +29,7 @@ router
         attributes: ["id", "name"],
         ...filter,
         // include: prods,
-        include: [prods, { model: comments, include: user }],
+        include: [prods, { model: comments, include: users }],
         //sends only name and image
       });
 

@@ -14,7 +14,7 @@ router
   .get(async (req, res, next) => {
     try {
       const product = await prods.findAll({
-        // include: [categs, { model: comments, include: user }],
+        include: [categs, { model: comments, include: user }],
       });
 
       res.send(product);
