@@ -26,7 +26,8 @@ router
       const category = await categs.findAll({
         attributes: ["id", "name"],
         ...filter,
-        include: prods,
+        // include: prods,
+        include: [prods, { model: comments, include: user }],
         //sends only name and image
       });
 
