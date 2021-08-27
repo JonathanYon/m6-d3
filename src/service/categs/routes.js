@@ -26,8 +26,8 @@ router
       //   const category = await prods.findAll(filter); //filter all product or the queries
       // const category = await categs.findAll();
       const category = await categs.findAll({
-        attributes: ["id", "name"],
-        ...filter,
+        // attributes: ["id", "name"],
+        // ...filter,
         // include: prods,
         include: [prods, { model: comments, include: users }],
         //sends only name and image
