@@ -14,7 +14,7 @@ router
   .get(async (req, res, next) => {
     try {
       const product = await prods.findAll({
-        limit: 2,
+        limit: 5,
         include: [categs, { model: comments, include: user }],
       });
 
