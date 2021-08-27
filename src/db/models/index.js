@@ -16,8 +16,14 @@ cate.hasMany(prod, {
 prod.belongsToMany(user, { through: { model: comment, unique: false } });
 user.belongsToMany(prod, { through: { model: comment, unique: false } });
 
-comment.belongsTo(user);
-user.hasMany(comment);
+comment.belongsTo(user, {
+  onDelete: "cascade",
+  foreignKey: { allowNull: false },
+});
+user.hasMany(comment, {
+  onDelete: "cascade",
+  foreignKey: { allowNull: false },
+});
 
 comment.belongsTo(prod);
 prod.hasMany(comment);

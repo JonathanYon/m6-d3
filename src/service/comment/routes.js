@@ -1,8 +1,8 @@
 import { Router } from "express";
-import pkg from "sequelize";
+// import pkg from "sequelize";
 import db from "../../db/models/index.js";
 
-const { Op } = pkg;
+// const { Op } = pkg;
 const comment = db.comment;
 const User = db.user;
 const router = Router();
@@ -11,7 +11,7 @@ router
   .route("/:userId")
   .get(async (req, res, next) => {
     try {
-      const product = await comment.findAll({});
+      const product = await comment.findByPk(req.params.userId);
       res.send(product);
     } catch (error) {
       console.log(error);
@@ -34,16 +34,39 @@ router
       console.log(error);
       next(error);
     }
+  })
+  .put(async (req, res, next) => {
+    try {
+      const product = await comment.update(req.body, {
+        where: { userId: req.params.userId },
+        returning: true,
+      });
+      res.send(product);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   });
 
-router.route("/").post(async (req, res, next) => {
-  try {
-    const product = await comment.create({ ...req.body });
-    res.send(product);
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-});
+router
+  .route("/")
+  .post(async (req, res, next) => {
+    try {
+      const product = await comment.create({ ...req.body });
+      res.send(product);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  })
+  .get(async (req, res, next) => {
+    try {
+      const product = await comment.findAll({});
+      res.send(product);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
 
 export default router;
